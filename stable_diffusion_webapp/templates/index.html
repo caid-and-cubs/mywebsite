@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator - Stable Diffusion</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-magic"></i> AI Image Generator</h1>
+                <p>Créez des images uniques à partir de vos descriptions textuelles</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="prompt">Décrivez votre image :</label>
+                        <textarea 
+                            id="prompt" 
+                            placeholder="Ex: un astronaute chevauchant un cheval sur Mars, style réaliste, haute qualité"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <!-- Advanced Settings -->
+                    <div class="advanced-settings">
+                        <button type="button" class="toggle-advanced" onclick="toggleAdvanced()">
+                            <i class="fas fa-cog"></i> Paramètres avancés
+                        </button>
+                        
+                        <div class="advanced-panel" id="advancedPanel">
+                            <div class="settings-grid">
+                                <div class="setting-group">
+                                    <label for="steps">Étapes d'inférence:</label>
+                                    <input type="range" id="steps" min="10" max="50" value="20">
+                                    <span class="value-display" id="stepsValue">20</span>
+                                </div>
+                                
+                                <div class="setting-group">
+                                    <label for="guidance">Guide Scale:</label>
+                                    <input type="range" id="guidance" min="1" max="20" step="0.5" value="7.5">
+                                    <span class="value-display" id="guidanceValue">7.5</span>
+                                </div>
+                                
+                                <div class="setting-group">
+                                    <label for="width">Largeur:</label>
+                                    <select id="width">
+                                        <option value="512" selected>512px</option>
+                                        <option value="768">768px</option>
+                                        <option value="1024">1024px</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="setting-group">
+                                    <label for="height">Hauteur:</label>
+                                    <select id="height">
+                                        <option value="512" selected>512px</option>
+                                        <option value="768">768px</option>
+                                        <option value="1024">1024px</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="generate-btn" onclick="generateImage()" id="generateBtn">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        Générer l'image
+                    </button>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section class="result-section" id="resultSection">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Génération en cours...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="result-container" id="resultContainer">
+                    <div class="image-container">
+                        <img id="generatedImage" alt="Image générée" />
+                        <div class="image-actions">
+                            <button class="action-btn download-btn" onclick="downloadImage()">
+                                <i class="fas fa-download"></i> Télécharger
+                            </button>
+                            <button class="action-btn share-btn" onclick="shareImage()">
+                                <i class="fas fa-share"></i> Partager
+                            </button>
+                        </div>
+                    </div>
+                    <div class="result-info">
+                        <h3>Prompt utilisé :</h3>
+                        <p id="usedPrompt"></p>
+                    </div>
+                </div>
+
+                <div class="error-container" id="errorContainer">
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="errorText"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section class="gallery-section">
+                <h2><i class="fas fa-images"></i> Galerie récente</h2>
+                <div class="gallery-grid" id="galleryGrid">
+                    <!-- Les images récentes seront ajoutées ici dynamiquement -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 AI Image Generator - Propulsé par Stable Diffusion</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
